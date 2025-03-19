@@ -1,26 +1,24 @@
 import { NextFunction, Request, Response } from "express";
 
-export type CustomErrorContent = {
-  message: string;
-  context?: { [key: string]: any };
-};
+class AppError extends Error {
+  statusCode: number;
+  isOperational: boolean;
 
-export abstract class CustomError extends Error {
-  abstract readonly statusCode: number;
-  abstract readonly errors: CustomErrorContent[];
-  abstract readonly logging: boolean;
-
-  constructor(message: string) {
+  constructor(message: string, statusCode: number, isOperational = true) {
     super(message);
+    this.statusCode = statusCode;
+    this.isOperational = isOperational;
 
-    Object.setPrototypeOf(this, CustomError.prototype);
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
-export const errroHandler = (err: CustomError, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof CustomError) {
-    return res.status(err.statusCode).json(err.message);
+export default AppError;
+export const errroHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({ message: err.message });
+  } else {
+    console.log(err);
+    res.status(500).json({ message: "Something went wrong" });
   }
-
-  return res.status(500).json({ message: "Something went wrong" });
 };
