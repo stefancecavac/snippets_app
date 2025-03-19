@@ -1,12 +1,18 @@
 import express from "express";
-import { deleteSnippetControler, getAllSnippetsController, postSnippetController } from "../controllers/snippetController";
-import { deleteSnippetSchema, insertSnippetSchema } from "../db/schema/snippets";
+import {
+  deleteSnippetControler,
+  getAllSnippetsController,
+  getSingleSnippetController,
+  postSnippetController,
+} from "../controllers/snippetController";
 import { validate } from "../middlewares/validation";
+import { snippetSchema } from "../db/schema/snippets";
 
 const router = express.Router();
 
 router.get("/", getAllSnippetsController);
-router.post("/", validate({ body: insertSnippetSchema }), postSnippetController);
-router.delete("/:id", validate({ params: deleteSnippetSchema }), deleteSnippetControler);
+router.get("/:id", validate({ params: snippetSchema.pick({ id: true }) }), getSingleSnippetController);
+router.post("/", validate({ body: snippetSchema.pick({ code: true }) }), postSnippetController);
+router.delete("/:id", validate({ params: snippetSchema.pick({ id: true }) }), deleteSnippetControler);
 
 export default router;

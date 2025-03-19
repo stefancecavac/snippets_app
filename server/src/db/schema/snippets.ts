@@ -6,10 +6,7 @@ export const snippetsTable = pgTable("snippets", {
   code: text("code").notNull(),
 });
 
-export const insertSnippetSchema = z.object({
-  code: z.string().min(1, { message: "Code field must not be empty" }),
-});
-
-export const deleteSnippetSchema = z.object({
+export const snippetSchema = z.object({
   id: z.string().uuid({ message: "Invalid snippet ID format" }),
+  code: z.string().min(1, { message: "Code field must not be empty" }),
 });

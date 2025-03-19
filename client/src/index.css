@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default, dark;
+}
+
+@plugin "daisyui/theme" {
+  name: "light-emerald";
+  default: true;
+
+  /* Background Colors */
+  --color-base-100: #ffffff; /* Pure White */
+  --color-base-200: #f8fafc; /* Light Grayish */
+  --color-base-300: #e2e8f0; /* Slightly Darker Gray */
+
+  /* Text Colors */
+  --color-base-content: #1f2937; /* Dark Gray for readability */
+  --color-neutral: #4b5563; /* Secondary text color */
+
+  /* Primary Theme Color (Emerald Green) */
+  --color-primary: #10b981; /* Emerald Green */
+  --color-primary-content: #ffffff; /* White text for contrast */
+
+  /* Secondary & Accent Colors */
+  --color-secondary: #34d399; /* Light Green */
+  --color-secondary-content: #ffffff;
+  --color-accent: #16a34a; /* Deep Emerald Green */
+  --color-accent-content: #ffffff;
+
+  /* Status Colors */
+  --color-info: #2563eb; /* Blue */
+  --color-info-content: #ffffff;
+  --color-success: #059669; /* Bright Green */
+  --color-success-content: #ffffff;
+  --color-warning: #f59e0b; /* Orange */
+  --color-warning-content: #ffffff;
+  --color-error: #dc2626; /* Red */
+  --color-error-content: #ffffff;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+
+  --color-base-100: #4a90e2;
+  --color-base-200: #1e1e1e;
+  --color-base-300: #292929;
+  --color-base-content: #e9ecef;
+  --color-primary: #4a90e2;
+  --color-primary-content: #ffffff;
+  --color-secondary: #6d28d9;
+  --color-secondary-content: #ffffff;
+  --color-accent: #10b981;
+  --color-accent-content: #ffffff;
+  --color-neutral: #2d3748;
+  --color-neutral-content: #ffffff;
+  --color-info: #60a5fa;
+  --color-info-content: #ffffff;
+  --color-success: #34d399;
+  --color-success-content: #ffffff;
+  --color-warning: #facc15;
+  --color-warning-content: #1f2937;
+  --color-error: #dc2626;
+  --color-error-content: #ffffff;
+}
