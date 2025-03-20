@@ -4,11 +4,13 @@ import { ZodError } from "zod";
 class AppError extends Error {
   statusCode: number;
   isOperational: boolean;
+  errors?: Record<string, string[]>; // Store structured errors
 
-  constructor(message: string, statusCode: number, isOperational = true) {
+  constructor(message: string, statusCode: number, errors?: Record<string, string[]>, isOperational = true) {
     super(message);
     this.statusCode = statusCode;
     this.isOperational = isOperational;
+    this.errors = errors;
 
     Error.captureStackTrace(this, this.constructor);
   }

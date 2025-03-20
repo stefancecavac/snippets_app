@@ -14,6 +14,7 @@ export const validate =
       if (body) {
         const bodyResult = body.safeParse(req.body);
         if (!bodyResult.success) {
+          console.log(bodyResult.error);
           return next(new AppError(bodyResult.error.errors.map((e) => e.message).join(","), 400));
         }
       }

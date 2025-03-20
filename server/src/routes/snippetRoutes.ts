@@ -12,7 +12,11 @@ const router = express.Router();
 
 router.get("/", getAllSnippetsController);
 router.get("/:id", validate({ params: snippetSchema.pick({ id: true }) }), getSingleSnippetController);
-router.post("/", validate({ body: snippetSchema.pick({ code: true }) }), postSnippetController);
+router.post(
+  "/",
+  validate({ body: snippetSchema.pick({ code: true, language: true, snippetDescription: true, snippetName: true }) }),
+  postSnippetController
+);
 router.delete("/:id", validate({ params: snippetSchema.pick({ id: true }) }), deleteSnippetControler);
 
 export default router;

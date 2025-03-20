@@ -12,8 +12,21 @@ export const getSingleSnippetService = async (id: string) => {
   return snippets;
 };
 
-export const postSnippetService = async (code: string) => {
-  const snippet = await db.insert(snippetsTable).values({ code: code }).returning();
+export const postSnippetService = async ({
+  code,
+  language,
+  snippetName,
+  snippetDescription,
+}: {
+  code: string;
+  language: string;
+  snippetName: string;
+  snippetDescription: string;
+}) => {
+  const snippet = await db
+    .insert(snippetsTable)
+    .values({ code: code, language: language, snippetName: snippetName, snippetDescription: snippetDescription })
+    .returning();
   return snippet;
 };
 

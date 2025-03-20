@@ -1,0 +1,70 @@
+{
+  "id": "e8c5956b-ce4c-4310-939f-990dd3f1630e",
+  "prevId": "52eed1c1-0cf7-4988-90f8-66f5f568bce3",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.snippets": {
+      "name": "snippets",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "language": {
+          "name": "language",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "likes": {
+          "name": "likes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "snippet_name": {
+          "name": "snippet_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "snippet_description": {
+          "name": "snippet_description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
