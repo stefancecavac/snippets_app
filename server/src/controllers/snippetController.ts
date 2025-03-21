@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { deleteSnippetService, getAllSnippetService, getSingleSnippetService, postSnippetService } from "../services/snippetService";
 import AppError from "../middlewares/errorHandler";
-import { SnippetBodyData } from "../db/schema/snippets";
 
 export const getAllSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -29,7 +28,7 @@ export const getSingleSnippetController = async (req: Request, res: Response, ne
   }
 };
 
-export const postSnippetController = async (req: Request<{}, {}, SnippetBodyData>, res: Response, next: NextFunction) => {
+export const postSnippetController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { code, language, snippetDescription, snippetName } = req.body;
 

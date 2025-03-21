@@ -1,33 +1,9 @@
+import { useGetAllSnippets } from "../api/snippetApi";
 import SearchComponent from "../components/SearchComponent";
 import { SnippetCard } from "../components/SnippetCard";
 
 const HomePage = () => {
-  const snippets = [
-    {
-      language: "react",
-      title: "React useState Hook",
-      description:
-        "A simple example of using the useState hook in React for managing component state A simple example of using the useState hook in React for managing component stateA simple example of using the useState hook in React for managing component state",
-      code: `const [count, setCount] = useState(0);
-  return (
-  <button onClick={() => setCount(count + 1)}>
-    Count: {count}
-  </button>
-);`,
-    },
-    {
-      language: "react",
-      title:
-        "React useState Hook React useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState HookReact useState Hook",
-      description: "A simple example of using the useState hook in React for managing component state",
-      code: `const [count, setCount] = useState(0);
-  return (
-  <button onClick={() => setCount(count + 1)}>
-    Count: {count}
-  </button>
-);`,
-    },
-  ];
+  const { snippets } = useGetAllSnippets();
 
   return (
     <div className="flex flex-col grow m-5">
@@ -46,8 +22,8 @@ const HomePage = () => {
         <p className="text-neutral font-medium">Code snipets</p>
 
         <div className="grid grid-cols-4 gap-5 mt-5">
-          {snippets.map((snippet, index) => (
-            <SnippetCard key={index} snippet={snippet} />
+          {snippets?.map((snippet) => (
+            <SnippetCard key={snippet.id} snippet={snippet} />
           ))}
         </div>
       </div>
