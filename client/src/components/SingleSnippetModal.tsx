@@ -32,7 +32,11 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
         <div className="border rounded-lg border-base-200 whitespace-break-spaces ">
           <div className="flex items-center justify-between p-2 border-b-2 border-base-200">
             <div className="flex items-center gap-2">
-              <div className="size-6 flex text-neutral fill-neutral" dangerouslySetInnerHTML={{ __html: matchedIcon?.svg || "" }}></div>
+              <div
+                className="size-6 flex text-neutral fill-neutral"
+                style={{ fill: matchedIcon?.color }}
+                dangerouslySetInnerHTML={{ __html: matchedIcon?.svg || "" }}
+              ></div>
               <p className="text-neutral text-sm">{snippet.language}</p>
             </div>
 

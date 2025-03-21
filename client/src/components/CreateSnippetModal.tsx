@@ -47,7 +47,7 @@ export const CreateSnippetModal = () => {
 
       {modalOpen && (
         <dialog ref={modalRef} id="create_snippet_modal" className="modal" onClose={() => setModalOpen(false)}>
-          <div className="modal-box max-w-2xl p-2 border border-base-200">
+          <div className="modal-box max-w-2xl p-2 border-2 border-base-200 ">
             <form onSubmit={handleSubmit(submitForm)} className="flex flex-col">
               <input
                 autoComplete="off"
@@ -76,7 +76,12 @@ export const CreateSnippetModal = () => {
                         {languageIcons
                           .filter((icon) => icon.name === selectedItem)
                           .map((icon) => (
-                            <div key={icon.name} className="flex size-4 mr-2" dangerouslySetInnerHTML={{ __html: icon.svg }} />
+                            <div
+                              key={icon.name}
+                              className="flex size-4 mr-2"
+                              style={{ fill: icon?.color }}
+                              dangerouslySetInnerHTML={{ __html: icon.svg }}
+                            />
                           ))}
                         {selectedItem}
                       </summary>
@@ -95,7 +100,12 @@ export const CreateSnippetModal = () => {
                             {languageIcons
                               .filter((icon) => icon.name === language)
                               .map((icon) => (
-                                <div key={icon.name} className="flex size-4 mr-2" dangerouslySetInnerHTML={{ __html: icon.svg }} />
+                                <div
+                                  key={icon.name}
+                                  className="flex size-4 mr-2"
+                                  style={{ fill: icon?.color }}
+                                  dangerouslySetInnerHTML={{ __html: icon.svg }}
+                                />
                               ))}
                             {language}
                           </div>
