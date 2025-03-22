@@ -17,7 +17,7 @@ const SearchComponent = () => {
             aria-autocomplete="none"
             className="w-full text-lg bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none px-2"
             required
-            placeholder="Search"
+            placeholder="Search by name , language or tag"
           />
         </div>
       </label>

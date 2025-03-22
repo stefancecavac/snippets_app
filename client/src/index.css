@@ -18,7 +18,7 @@
   --color-neutral: #6f6f70; /* Secondary text color */
 
   /* Primary Theme Color (Emerald Green) */
-  --color-primary: #00e676;
+  --color-primary: #15d678;
   --color-primary-content: #ffffff; /* White text for contrast */
 
   /* Secondary & Accent Colors */
@@ -61,4 +61,66 @@
   --color-warning-content: #1f2937;
   --color-error: #dc2626;
   --color-error-content: #ffffff;
+}
+
+/* animations  */
+
+.rotate-in-center {
+  -webkit-animation: rotate-in-center 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: rotate-in-center 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes rotate-in-center {
+  0% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+@keyframes rotate-in-center {
+  0% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+.scale-in-center {
+  -webkit-animation: scale-in-center 0.1s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
+  animation: scale-in-center 0.1s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
 }
