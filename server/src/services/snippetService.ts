@@ -23,11 +23,11 @@ export const postSnippetService = async ({
   snippetName: string;
   snippetDescription: string;
 }) => {
-  const snippet = await db
-    .insert(snippetsTable)
-    .values({ code: code, language: language, snippetName: snippetName, snippetDescription: snippetDescription })
-    .returning();
-  return snippet;
+  // const snippet = await db
+  //   .insert(snippetsTable)
+  //   .values({ code: code, language: language, snippetName: snippetName, snippetDescription: snippetDescription })
+  //   .returning();
+  // return snippet;
 };
 
 export const deleteSnippetService = async (id: string) => {

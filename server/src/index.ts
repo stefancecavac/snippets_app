@@ -1,13 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
 import snippetsRouter from "./routes/snippetRoutes";
+import authRouter from "./routes/authRoutes";
 import { errroHandler } from "./middlewares/errorHandler";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 const corsOptions = {
   origin: process.env.ORIGIN ?? "http://localhost:5173",
@@ -17,6 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/snippets", snippetsRouter);
+app.use("/api/auth", authRouter);
 
 app.use(errroHandler);
 

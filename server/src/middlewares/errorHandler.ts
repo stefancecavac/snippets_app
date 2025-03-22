@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodError } from "zod";
 
 class AppError extends Error {
   statusCode: number;
   isOperational: boolean;
-  errors?: Record<string, string[]>; // Store structured errors
+  errors?: Record<string, string[]>;
 
   constructor(message: string, statusCode: number, errors?: Record<string, string[]>, isOperational = true) {
     super(message);
@@ -19,6 +18,8 @@ class AppError extends Error {
 export default AppError;
 export const errroHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
+    console.log(err);
+
     res.status(err.statusCode).json({ message: err.message });
   } else {
     console.log(err);

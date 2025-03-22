@@ -1,5 +1,6 @@
 import { integer, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
 import { z } from "zod";
+import { usersTable } from "./users";
 
 export const snippetsTable = pgTable("snippets", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -8,6 +9,10 @@ export const snippetsTable = pgTable("snippets", {
   snippetName: varchar("snippet_name", { length: 255 }).notNull(),
   snippetDescription: varchar("snippet_description").notNull(),
   code: text("code").notNull(),
+
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => usersTable.id),
 });
 
 export const snippetSchema = z.object({
@@ -31,4 +36,6 @@ export const snippetSchema = z.object({
     })
     .min(1, { message: "Code field must not be empty" })
     .max(5000, { message: "Code should not exceed 5000 characters" }),
+
+  userId: z.string(),
 });
