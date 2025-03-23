@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { checkExistingUserService, getUserByIdService, saveUserToDbService } from "../services/authService";
+import { createUserService, getUserByEmailService, getUserByIdService } from "../services/authService";
 import AppError from "../middlewares/errorHandler";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../util/generateAccessToken";
@@ -10,14 +10,14 @@ import { JwtVerifiedPayload } from "../middlewares/authentication";
 export const registerUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    const user = await checkExistingUserService(email);
+    const user = await getUserByEmailService(email);
     if (user) {
       return next(new AppError("User with that email already exists", 400));
     }
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    const savedUser = await saveUserToDbService({ email: email, password: hashPassword });
+    const savedUser = await createUserService({ email: email, password: hashPassword });
     const accessToken = generateAccessToken(savedUser.id);
 
     const refreshToken = generateRefreshToken(savedUser.id);
@@ -37,7 +37,7 @@ export const registerUserController = async (req: Request, res: Response, next: 
 export const loginUserController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
-    const user = await checkExistingUserService(email);
+    const user = await getUserByEmailService(email);
     if (!user) {
       return next(new AppError("Invalid credentials", 400));
     }
