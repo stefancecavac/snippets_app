@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark, materialLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { languageIcons } from "../lanugageIcons";
 import { CopyButton } from "./CopyButton";
+import { useThemeChangerStore } from "../store/ThemeChangerStore";
 
 type SingleSnippetModalProps = {
   snippet: snippetData;
@@ -13,6 +14,7 @@ type SingleSnippetModalProps = {
 
 export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalProps) => {
   const modalRef = useRef<HTMLDialogElement>(null);
+  const { darkMode } = useThemeChangerStore();
 
   const matchedIcon = languageIcons.filter((icon) => icon.name === snippet.language)[0];
 
@@ -26,7 +28,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
 
   return (
     <dialog ref={modalRef} id={`${snippet.id}`} className="modal" onClose={closeModal}>
-      <div className="modal-box w-11/12 max-w-2xl scale-in-center">
+      <div className="modal-box w-11/12 max-w-2xl scale-in-center ">
         <h3 className="font-bold text-2xl text-base-content">{snippet.snippetName}</h3>
         <p className="py-4 text-neutral ">{snippet.snippetDescription}</p>
 
@@ -44,7 +46,14 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
             <CopyButton code={snippet.code} />
           </div>
           <div className="overflow-auto h-100 text-sm">
-            <SyntaxHighlighter wrapLines wrapLongLines showInlineLineNumbers showLineNumbers language={"sql"} style={materialLight}>
+            <SyntaxHighlighter
+              wrapLines
+              wrapLongLines
+              showInlineLineNumbers
+              showLineNumbers
+              language={"sql"}
+              style={darkMode ? materialDark : materialLight}
+            >
               {snippet.code}
             </SyntaxHighlighter>
           </div>

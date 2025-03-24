@@ -1,11 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, sans;
+}
 
 @plugin "daisyui" {
   themes: light --default, dark;
 }
 
 @plugin "daisyui/theme" {
-  name: "light-emerald";
+  name: "light";
   default: true;
 
   /* Background Colors */
@@ -41,25 +47,33 @@
 @plugin "daisyui/theme" {
   name: "dark";
 
-  --color-base-100: #4a90e2;
-  --color-base-200: #1e1e1e;
-  --color-base-300: #292929;
-  --color-base-content: #e9ecef;
-  --color-primary: #4a90e2;
-  --color-primary-content: #ffffff;
-  --color-secondary: #6d28d9;
-  --color-secondary-content: #ffffff;
-  --color-accent: #10b981;
+  /* Background Colors */
+  --color-base-100: #1e1e1e; /* Dark Gray */
+  --color-base-200: #2a2a2a; /* Slightly Lighter Gray */
+  --color-base-300: #3b3b3b; /* Medium Gray */
+
+  /* Text Colors */
+  --color-base-content: #e3e6e8; /* Light Gray for readability */
+  --color-neutral: #b6b8ba; /* Muted text color */
+
+  /* Primary Theme Color (Emerald Green) */
+  --color-primary: #15d678;
+  --color-primary-content: #ffffff; /* White text for contrast */
+
+  /* Secondary & Accent Colors */
+  --color-secondary: #34d399; /* Light Green */
+  --color-secondary-content: #000000; /* Black for contrast */
+  --color-accent: #16a34a; /* Deep Emerald Green */
   --color-accent-content: #ffffff;
-  --color-neutral: #2d3748;
-  --color-neutral-content: #ffffff;
-  --color-info: #60a5fa;
+
+  /* Status Colors */
+  --color-info: #3b82f6; /* Lighter Blue */
   --color-info-content: #ffffff;
-  --color-success: #34d399;
+  --color-success: #10b981; /* Bright Green */
   --color-success-content: #ffffff;
-  --color-warning: #facc15;
-  --color-warning-content: #1f2937;
-  --color-error: #dc2626;
+  --color-warning: #fbbf24; /* Warmer Orange */
+  --color-warning-content: #ffffff;
+  --color-error: #ef4444; /* Slightly Softer Red */
   --color-error-content: #ffffff;
 }
 
@@ -96,8 +110,8 @@
 }
 
 .scale-in-center {
-  -webkit-animation: scale-in-center 0.1s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
-  animation: scale-in-center 0.1s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
+  -webkit-animation: scale-in-center 0.2s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
+  animation: scale-in-center 0.2s cubic-bezier(0.25, 0.46, 0.8, 0.94) both;
 }
 
 @-webkit-keyframes scale-in-center {

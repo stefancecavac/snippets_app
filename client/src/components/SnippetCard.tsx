@@ -19,7 +19,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
 
   return (
     <>
-      <div className="group relative overflow-hidden   rounded-lg border-2 border-base-200/50 bg-base-100 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-base-300">
+      <div className="group relative overflow-hidden   rounded-lg border-2 border-base-200/50 bg-base-100 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-base-300">
         <div className="flex flex-col pt-3  ">
           <div className="flex items-center pb-2 px-3 justify-between">
             <div className=" flex items-center gap-2  py-1  text-neutral">
@@ -31,7 +31,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
 
           <div onClick={() => openModal()} className="relative group/showCode hover:cursor-pointer">
             <div className=" top-0 right-0 left-0 bottom-0  opacity-0 group-hover/showCode:opacity-100  transition-all flex items-center justify-center  z-50  absolute">
-              <p className="p-1 rounded-full  bg-gradient-to-r from-primary/50 to-primary  shadow-sm text-base-content text-xs ">Show code</p>
+              <p className="p-1 rounded btn btn-sm  bg-primary  shadow-sm text-white text-xs ">Show code</p>
             </div>
             <div className="  group-hover/showCode:blur-xs ">
               <div className="flex pb-2 mb-4 px-3 ">
@@ -62,7 +62,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
         <div className="flex items-center justify-between border-t border-base-200 px-5 py-3 ">
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-base-200 text-xs font-medium uppercase "></div>
-            <span className="text-xs text-zinc-600 ">GugaR@email.com</span>
+            <span className="text-xs text-zinc-600 ">{snippet.user.email}</span>
           </div>
 
           <div className="flex items-center gap-1">

@@ -2,10 +2,41 @@ import { snippetsTable } from "../db/schema/snippets";
 import { db } from "../db";
 import { eq } from "drizzle-orm";
 import AppError from "../middlewares/errorHandler";
+import { usersTable } from "../db/schema/users";
 
 export const getAllSnippetService = async () => {
   try {
-    const snippets = await db.select().from(snippetsTable);
+    const snippets = await db
+      .select({
+        id: snippetsTable.id,
+        snippetName: snippetsTable.snippetName,
+        snippetDescription: snippetsTable.snippetDescription,
+        code: snippetsTable.code,
+        language: snippetsTable.language,
+        user: { id: usersTable.id, email: usersTable.email },
+      })
+      .from(snippetsTable)
+      .fullJoin(usersTable, eq(snippetsTable.userId, usersTable.id));
+    return snippets;
+  } catch (error) {
+    throw new AppError("Database error", 500);
+  }
+};
+
+export const getAllSnippetsByUserId = async (userId: string) => {
+  try {
+    const snippets = await db
+      .select({
+        id: snippetsTable.id,
+        snippetName: snippetsTable.snippetName,
+        snippetDescription: snippetsTable.snippetDescription,
+        code: snippetsTable.code,
+        language: snippetsTable.language,
+        user: { id: usersTable.id, email: usersTable.email },
+      })
+      .from(snippetsTable)
+      .where(eq(snippetsTable.id, userId))
+      .fullJoin(usersTable, eq(snippetsTable.userId, usersTable.id));
     return snippets;
   } catch (error) {
     throw new AppError("Database error", 500);

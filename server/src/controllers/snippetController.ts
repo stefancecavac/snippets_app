@@ -1,10 +1,30 @@
 import { NextFunction, Request, Response } from "express";
-import { createSnippetService, deleteSnippetByIdService, getAllSnippetService, getSnippetByIdService } from "../services/snippetService";
+import {
+  createSnippetService,
+  deleteSnippetByIdService,
+  getAllSnippetsByUserId,
+  getAllSnippetService,
+  getSnippetByIdService,
+} from "../services/snippetService";
 import AppError from "../middlewares/errorHandler";
 
 export const getAllSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const snippets = await getAllSnippetService();
+
+    res.status(200).json(snippets);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllUserSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return next(new AppError("No userId provided", 400));
+    }
+    const snippets = await getAllSnippetsByUserId(userId);
 
     res.status(200).json(snippets);
   } catch (error) {

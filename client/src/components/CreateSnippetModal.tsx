@@ -5,8 +5,13 @@ import { createSnippetData, createSnippetSchema } from "../types";
 import { useCreateSnippet } from "../api/snippetApi";
 import { languages } from "../languages";
 import { languageIcons } from "../lanugageIcons";
+import { UseAuthContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 export const CreateSnippetModal = () => {
+  const { user } = UseAuthContext();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -23,6 +28,7 @@ export const CreateSnippetModal = () => {
 
   useEffect(() => {
     if (modalOpen && modalRef.current) {
+      if (!user) navigate("/signup");
       modalRef.current.showModal();
     } else if (modalRef.current) {
       modalRef.current.close();
@@ -47,7 +53,7 @@ export const CreateSnippetModal = () => {
 
       {modalOpen && (
         <dialog ref={modalRef} id="create_snippet_modal" className="modal" onClose={() => setModalOpen(false)}>
-          <div className="modal-box max-w-2xl p-2 border-2 border-base-200 ">
+          <div className="modal-box max-w-2xl p-2 border-2 border-base-200 scale-in-center ">
             <form onSubmit={handleSubmit(submitForm)} className="flex flex-col">
               <input
                 autoComplete="off"
