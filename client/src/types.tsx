@@ -55,6 +55,7 @@ export const usersSchema = z.object({
     .string({ message: "Email is required" })
     .email({ message: "Not a valid email" })
     .max(255, { message: "Language name should not exceed 255 characters" }),
+  likes: z.array(z.string()),
 });
 
 export type userData = z.infer<typeof usersSchema>;

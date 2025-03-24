@@ -10,7 +10,8 @@ import AppError from "../middlewares/errorHandler";
 
 export const getAllSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const snippets = await getAllSnippetService();
+    const q = req.query.q as string;
+    const snippets = await getAllSnippetService({ q });
 
     res.status(200).json(snippets);
   } catch (error) {

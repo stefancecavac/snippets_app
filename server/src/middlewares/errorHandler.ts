@@ -17,6 +17,7 @@ class AppError extends Error {
 
 export default AppError;
 export const errroHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
   if (err instanceof AppError) {
     console.log(err);
 

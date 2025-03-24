@@ -1,6 +1,9 @@
+import { useSearchParams } from "react-router-dom";
 import { CreateSnippetModal } from "./CreateSnippetModal";
 
 const SearchComponent = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   return (
     <div className="flex items-center gap-5 w-150">
       <label className="w-full">
@@ -12,6 +15,8 @@ const SearchComponent = () => {
             </g>
           </svg>
           <input
+            value={searchParams.get("q") || ""}
+            onChange={(e) => setSearchParams({ q: e.target.value })}
             type="text"
             autoComplete="off"
             aria-autocomplete="none"

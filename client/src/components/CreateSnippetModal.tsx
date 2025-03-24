@@ -33,7 +33,7 @@ export const CreateSnippetModal = () => {
     } else if (modalRef.current) {
       modalRef.current.close();
     }
-  }, [modalOpen]);
+  }, [modalOpen, user]);
 
   const submitForm = (data: createSnippetData) => {
     createSnippet(data);

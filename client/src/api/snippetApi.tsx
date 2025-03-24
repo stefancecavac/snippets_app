@@ -2,19 +2,19 @@ import { axiosInstance } from "../config/apiClient";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createSnippetData, snippetData } from "../types";
 
-export const useGetAllSnippets = () => {
+export const useGetAllSnippets = (q: string) => {
   const getAllSnippetsApi = async () => {
-    const response = await axiosInstance.get("/snippets");
+    const response = await axiosInstance.get(`/snippets`, { params: { q } });
 
     return response.data as snippetData[];
   };
 
-  const { data: snippets } = useQuery({
-    queryKey: ["snippets"],
+  const { data: snippets, isPending: snippetsLoading } = useQuery({
+    queryKey: ["snippets", q],
     queryFn: getAllSnippetsApi,
   });
 
-  return { snippets };
+  return { snippets, snippetsLoading };
 };
 
 export const useCreateSnippet = () => {

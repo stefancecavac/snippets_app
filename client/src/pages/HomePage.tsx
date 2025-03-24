@@ -1,9 +1,16 @@
+import { useSearchParams } from "react-router-dom";
 import { useGetAllSnippets } from "../api/snippetApi";
 import SearchComponent from "../components/SearchComponent";
+import SkeletonSnippetCard from "../components/SkeletonSnippetCard";
 import { SnippetCard } from "../components/SnippetCard";
+import { useDebounceHook } from "../hooks/useDebounceHook";
 
 const HomePage = () => {
-  const { snippets } = useGetAllSnippets();
+  const [searhParams] = useSearchParams();
+  const { debouncedValue } = useDebounceHook(searhParams.get("q") || "", 500);
+  const { snippets, snippetsLoading } = useGetAllSnippets(debouncedValue);
+
+  const loaderSnippets = new Array(8).fill(undefined);
 
   return (
     <div className="flex flex-col grow m-5">
@@ -22,9 +29,9 @@ const HomePage = () => {
         <p className="text-neutral font-medium">Code snipets</p>
 
         <div className="grid grid-cols-4 gap-5 mt-5">
-          {snippets?.map((snippet) => (
-            <SnippetCard key={snippet.id} snippet={snippet} />
-          ))}
+          {snippetsLoading
+            ? loaderSnippets.map((_, index) => <SkeletonSnippetCard key={index} />)
+            : snippets?.map((snippet) => <SnippetCard key={snippet.id} snippet={snippet} />)}
         </div>
       </div>
     </div>

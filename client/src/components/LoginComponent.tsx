@@ -1,15 +1,19 @@
 import { useForm } from "react-hook-form";
 import { UseAuthContext } from "../context/authContext";
 import { createUserData } from "../types";
+import { useEffect } from "react";
 
 export const LoginComponent = ({ setShowLogin }: { setShowLogin: (value: boolean) => void }) => {
   const { loginUser, loginError, loginPending } = UseAuthContext();
   const { register, handleSubmit, reset } = useForm<createUserData>();
 
   const handleLoginUser = (data: createUserData) => {
-    if (loginError) reset();
     loginUser(data);
   };
+
+  useEffect(() => {
+    if (loginError) reset();
+  }, [loginError, reset]);
 
   return (
     <form onSubmit={handleSubmit(handleLoginUser)} className="flex flex-col p-2 items-center">

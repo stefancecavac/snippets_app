@@ -1,18 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useThemeChangerStore } from "../store/ThemeChangerStore";
+import { UseAuthContext } from "../context/authContext";
 
 const HeaderComponent = () => {
+  const { user, logout } = UseAuthContext();
   const { toggleTheme } = useThemeChangerStore();
 
   return (
     <div className=" p-3  flex items-center justify-between border-b-2 border-base-300/30 fixed w-full backdrop-blur-lg z-50">
       <h1 className="text-2xl font-bold text-primary">{"<>"} Code Block</h1>
       <div className="flex items-center gap-10">
-        <NavLink to="/" className={({ isActive }) => `${isActive && "text-primary "}`}>
-          Home
-        </NavLink>
-        <p>My snippets</p>
-
         <div className="flex items-center gap-3">
           <label className="swap swap-rotate btn btn-sm btn-ghost btn-square ">
             <input onChange={toggleTheme} type="checkbox" />
@@ -25,7 +22,25 @@ const HeaderComponent = () => {
               <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
             </svg>
           </label>
-          <button className="btn btn-primary btn-sm ">Signup</button>
+
+          {user ? (
+            <div className="flex items-center gap-5">
+              <button className="btn btn-sm btn-error btn-soft flex items-center gap-2" onClick={() => logout()}>
+                Logout
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+                  />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <Link to={"/signup"} className="btn btn-primary btn-sm ">
+              Signup
+            </Link>
+          )}
         </div>
       </div>
     </div>
