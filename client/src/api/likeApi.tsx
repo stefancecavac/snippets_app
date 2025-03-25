@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { axiosInstance } from "../config/apiClient";
 import { snippetData, userData } from "../types";
+import { useSearchParams } from "react-router-dom";
 
 export const useToggleLike = () => {
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get("q") || "";
   const queryClient = useQueryClient();
   const toggleLikeApi = async (snippetId: string) => {
     const response = await axiosInstance.post("/likes/like-snippet", { snippetId });
@@ -14,7 +17,7 @@ export const useToggleLike = () => {
     mutationKey: ["snippets"],
     mutationFn: toggleLikeApi,
     onSuccess: (data: { liked: boolean; snippetId: string }) => {
-      queryClient.setQueryData(["snippets"], (oldData: snippetData[] | undefined) => {
+      queryClient.setQueryData(["snippets", q], (oldData: snippetData[] | undefined) => {
         if (!oldData) return [];
         return oldData.map((snippet) =>
           snippet.id === data.snippetId ? { ...snippet, likes: data.liked ? snippet.likes + 1 : snippet.likes - 1 } : snippet

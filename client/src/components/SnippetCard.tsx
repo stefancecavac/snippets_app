@@ -86,7 +86,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1}
                 stroke="currentColor"
-                className={`size-5 text-error  hover:scale-130 hover:fill-error transition-all ${snippetLiked ? "fill-error " : " "}`}
+                className={`size-5   hover:scale-130 hover:fill-error transition-all ${snippetLiked ? "fill-error  text-error" : "text-neutral "}`}
               >
                 <path
                   strokeLinecap="round"
