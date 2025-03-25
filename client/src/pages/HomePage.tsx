@@ -4,13 +4,35 @@ import SearchComponent from "../components/SearchComponent";
 import SkeletonSnippetCard from "../components/SkeletonSnippetCard";
 import { SnippetCard } from "../components/SnippetCard";
 import { useDebounceHook } from "../hooks/useDebounceHook";
+import { snippetData } from "../types";
+import { useEffect, useRef } from "react";
 
 const HomePage = () => {
   const [searhParams] = useSearchParams();
   const { debouncedValue } = useDebounceHook(searhParams.get("q") || "", 500);
-  const { snippets, snippetsLoading } = useGetAllSnippets(debouncedValue);
+  const { snippets, snippetsLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useGetAllSnippets(debouncedValue);
 
   const loaderSnippets = new Array(8).fill(undefined);
+
+  const observerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [hasNextPage, isFetchingNextPage]);
 
   return (
     <div className="flex flex-col grow m-5">
@@ -28,11 +50,21 @@ const HomePage = () => {
       <div className="mt-10 mx-20">
         <p className="text-neutral font-medium">Code snipets</p>
 
+        {snippets.length === 0 && <p className="text-center mt-30 text-neutral">No snippets found</p>}
         <div className="grid grid-cols-4 gap-5 mt-5">
           {snippetsLoading
             ? loaderSnippets.map((_, index) => <SkeletonSnippetCard key={index} />)
-            : snippets?.map((snippet) => <SnippetCard key={snippet.id} snippet={snippet} />)}
+            : snippets?.map((snippet: snippetData) => <SnippetCard key={snippet.id} snippet={snippet} />)}
         </div>
+
+        {isFetchingNextPage && (
+          <div className="grid grid-cols-4 gap-5 mt-5">
+            {loaderSnippets.map((_, index) => (
+              <SkeletonSnippetCard key={index} />
+            ))}
+          </div>
+        )}
+        <div ref={observerRef}></div>
       </div>
     </div>
   );

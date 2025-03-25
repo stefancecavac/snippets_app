@@ -36,9 +36,9 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
           <div className="flex items-center pb-2 px-3 justify-between">
             <div className=" flex items-center gap-2  py-1  text-neutral">
               <div className="flex items-center gap-2 size-5 " style={{ fill: icon?.color }} dangerouslySetInnerHTML={{ __html: icon?.svg }}></div>
-              <p>{snippet.language}</p>
+              <p>{snippet?.language}</p>
             </div>
-            <CopyButton code={snippet.code} />
+            <CopyButton code={snippet?.code} />
           </div>
 
           <div onClick={() => openModal()} className="relative group/showCode hover:cursor-pointer">
@@ -74,7 +74,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
         <div className="flex items-center justify-between border-t border-base-200 px-5 py-3 ">
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-base-200 text-xs font-medium uppercase "></div>
-            <span className="text-xs text-zinc-600 ">{snippet.user.email}</span>
+            <span className="text-xs text-zinc-600 ">{snippet?.user?.email}</span>
           </div>
 
           <div className="flex items-center gap-1">

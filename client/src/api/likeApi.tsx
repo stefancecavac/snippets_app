@@ -17,9 +17,9 @@ export const useToggleLike = () => {
     mutationKey: ["snippets"],
     mutationFn: toggleLikeApi,
     onSuccess: (data: { liked: boolean; snippetId: string }) => {
-      queryClient.setQueryData(["snippets", q], (oldData: snippetData[] | undefined) => {
+      queryClient.setQueryData(["snippets", q], (oldData: { snippets: snippetData[] } | undefined) => {
         if (!oldData) return [];
-        return oldData.map((snippet) =>
+        return oldData?.snippets?.map((snippet) =>
           snippet.id === data.snippetId ? { ...snippet, likes: data.liked ? snippet.likes + 1 : snippet.likes - 1 } : snippet
         );
       });

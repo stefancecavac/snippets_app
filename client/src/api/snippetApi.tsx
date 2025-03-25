@@ -1,22 +1,38 @@
 import { axiosInstance } from "../config/apiClient";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { createSnippetData, snippetData } from "../types";
 
 export const useGetAllSnippets = (q: string) => {
-  const getAllSnippetsApi = async () => {
-    const response = await axiosInstance.get(`/snippets`, { params: { q } });
-
-    return response.data as snippetData[];
+  const getAllSnippetsApi = async ({ pageParam = 1 }) => {
+    const response = await axiosInstance.get("/snippets", {
+      params: { q, page: pageParam },
+    });
+    return response.data;
   };
 
-  const { data: snippets, isPending: snippetsLoading } = useQuery({
+  const {
+    data: snippetsData,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ["snippets", q],
-    queryFn: getAllSnippetsApi,
+    queryFn: ({ pageParam }) => getAllSnippetsApi({ pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNextPage ? allPages.length + 1 : undefined;
+    },
   });
 
-  return { snippets, snippetsLoading };
+  return {
+    snippets: snippetsData?.pages.flatMap((page) => page.snippets) || [],
+    snippetsLoading: isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  };
 };
-
 export const useCreateSnippet = () => {
   const postSnippetAPi = async (data: createSnippetData) => {
     const response = await axiosInstance.post("/snippets", data);

@@ -3,10 +3,17 @@ import { db } from "../db";
 import AppError from "../middlewares/errorHandler";
 import { usersTable } from "../db/schema/users";
 import { likesTable } from "../db/schema/likes";
-import { count, eq, ilike, or } from "drizzle-orm";
+import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
 
-export const getAllSnippetService = async ({ q }: { q: string }) => {
+export const getAllSnippetService = async ({ q, page }: { q: string; page: number }) => {
   try {
+    const limit = 8;
+    const offset = (page - 1) * limit;
+
+    const keywords = q ? q.split(" ").filter(Boolean) : [];
+
+    console.log(keywords);
+
     const snippets = await db
       .select({
         id: snippetsTable.id,
@@ -15,15 +22,27 @@ export const getAllSnippetService = async ({ q }: { q: string }) => {
         code: snippetsTable.code,
         language: snippetsTable.language,
         user: { id: usersTable.id, email: usersTable.email },
-        likes: count(likesTable.snippetId),
+        likes: count(likesTable.snippetId).as("likes_count"),
+        totalCount: sql<number>`COUNT(*) OVER()`.as("total_count"),
       })
       .from(snippetsTable)
       .leftJoin(usersTable, eq(snippetsTable.userId, usersTable.id))
       .leftJoin(likesTable, eq(likesTable.snippetId, snippetsTable.id))
       .groupBy(snippetsTable.id, usersTable.id)
-      .where(q ? or(ilike(snippetsTable.snippetName, `%${q}%`), ilike(snippetsTable.language, `%${q}%`)) : undefined);
+      .where(
+        keywords.length > 0
+          ? keywords.length > 1
+            ? and(...keywords.map((key) => or(ilike(snippetsTable.snippetName, `%${key}%`), ilike(snippetsTable.language, `%${key}%`))))
+            : or(...keywords.map((key) => or(ilike(snippetsTable.snippetName, `%${key}%`), ilike(snippetsTable.language, `%${key}%`))))
+          : undefined
+      )
+      .orderBy(desc(sql`likes_count`))
+      .limit(limit)
+      .offset(offset);
 
-    return snippets;
+    const hasNextPage = page * limit < snippets[0].totalCount;
+
+    return { snippets, hasNextPage };
   } catch (error) {
     throw new AppError("Database error", 500);
   }
