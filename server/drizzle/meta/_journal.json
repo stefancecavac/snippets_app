@@ -15,6 +15,13 @@
       "when": 1742815467934,
       "tag": "0001_empty_millenium_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742986204172,
+      "tag": "0002_sloppy_romulus",
+      "breakpoints": true
     }
   ]
 }

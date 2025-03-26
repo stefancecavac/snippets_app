@@ -53,14 +53,14 @@ export const getSingleSnippetController = async (req: Request, res: Response, ne
 
 export const postSnippetController = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { code, language, snippetDescription, snippetName } = req.body;
+    const { code, language, snippetDescription, snippetName, tags } = req.body;
     const userId = req.user?.userId;
 
     if (!userId) {
       return next(new AppError("No userId provided", 400));
     }
 
-    const snippets = await createSnippetService({ code, language, snippetDescription, snippetName, userId });
+    const snippets = await createSnippetService({ code, language, snippetDescription, snippetName, userId, tags });
 
     res.status(200).json(snippets);
   } catch (error) {

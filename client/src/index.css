@@ -40,7 +40,7 @@
   --color-success-content: #ffffff;
   --color-warning: #f59e0b; /* Orange */
   --color-warning-content: #ffffff;
-  --color-error: #dc2626; /* Red */
+  --color-error: #fc3838; /* Red */
   --color-error-content: #ffffff;
 }
 
@@ -57,7 +57,7 @@
   --color-neutral: #b6b8ba; /* Muted text color */
 
   /* Primary Theme Color (Emerald Green) */
-  --color-primary: #15d678;
+  --color-primary: #10ab60;
   --color-primary-content: #ffffff; /* White text for contrast */
 
   /* Secondary & Accent Colors */

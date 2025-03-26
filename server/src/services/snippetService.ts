@@ -3,7 +3,9 @@ import { db } from "../db";
 import AppError from "../middlewares/errorHandler";
 import { usersTable } from "../db/schema/users";
 import { likesTable } from "../db/schema/likes";
-import { and, count, desc, eq, ilike, or, sql } from "drizzle-orm";
+import { and, count, desc, eq, exists, ilike, inArray, or, sql } from "drizzle-orm";
+import { snippetsTagsTable } from "../db/schema/snippetsTags";
+import { tagsTable } from "../db/schema/tags";
 
 export const getAllSnippetService = async ({ q, page }: { q: string; page: number }) => {
   try {
@@ -12,7 +14,30 @@ export const getAllSnippetService = async ({ q, page }: { q: string; page: numbe
 
     const keywords = q ? q.split(" ").filter(Boolean) : [];
 
-    console.log(keywords);
+    const matchingSnippetIds = db
+      .select({ snippetId: snippetsTagsTable.snippetId })
+      .from(snippetsTagsTable)
+      .leftJoin(tagsTable, eq(tagsTable.id, snippetsTagsTable.tagId))
+      .where(or(...keywords.map((key) => ilike(tagsTable.tagName, `%${key}%`))));
+
+    const searchCondition =
+      keywords.length > 1
+        ? and(
+            ...keywords.map((key) =>
+              or(
+                ilike(snippetsTable.snippetName, `%${key}%`),
+                ilike(snippetsTable.language, `%${key}%`),
+                inArray(snippetsTable.id, matchingSnippetIds)
+              )
+            )
+          )
+        : keywords.length === 1
+        ? or(
+            ilike(snippetsTable.snippetName, `%${keywords[0]}%`),
+            ilike(snippetsTable.language, `%${keywords[0]}%`),
+            inArray(snippetsTable.id, matchingSnippetIds)
+          )
+        : undefined;
 
     const snippets = await db
       .select({
@@ -23,27 +48,32 @@ export const getAllSnippetService = async ({ q, page }: { q: string; page: numbe
         language: snippetsTable.language,
         user: { id: usersTable.id, email: usersTable.email },
         likes: count(likesTable.snippetId).as("likes_count"),
-        totalCount: sql<number>`COUNT(*) OVER()`.as("total_count"),
+        tags: sql<string>`ARRAY_AGG(DISTINCT ${tagsTable.tagName})`,
       })
       .from(snippetsTable)
       .leftJoin(usersTable, eq(snippetsTable.userId, usersTable.id))
       .leftJoin(likesTable, eq(likesTable.snippetId, snippetsTable.id))
+      .leftJoin(snippetsTagsTable, eq(snippetsTagsTable.snippetId, snippetsTable.id))
+      .leftJoin(tagsTable, eq(tagsTable.id, snippetsTagsTable.tagId))
+      .where(searchCondition)
       .groupBy(snippetsTable.id, usersTable.id)
-      .where(
-        keywords.length > 0
-          ? keywords.length > 1
-            ? and(...keywords.map((key) => or(ilike(snippetsTable.snippetName, `%${key}%`), ilike(snippetsTable.language, `%${key}%`))))
-            : or(...keywords.map((key) => or(ilike(snippetsTable.snippetName, `%${key}%`), ilike(snippetsTable.language, `%${key}%`))))
-          : undefined
-      )
       .orderBy(desc(sql`likes_count`))
       .limit(limit)
       .offset(offset);
 
-    const hasNextPage = page * limit < snippets[0].totalCount;
+    const totalCountQuery = db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(snippetsTable)
+      .where(searchCondition)
+      .leftJoin(snippetsTagsTable, eq(snippetsTagsTable.snippetId, snippetsTable.id))
+      .leftJoin(tagsTable, eq(tagsTable.id, snippetsTagsTable.tagId));
+
+    const totalCount = (await totalCountQuery)[0].count;
+    const hasNextPage = page * limit < totalCount;
 
     return { snippets, hasNextPage };
   } catch (error) {
+    console.log(error);
     throw new AppError("Database error", 500);
   }
 };
@@ -83,15 +113,37 @@ export const createSnippetService = async ({
   snippetName,
   snippetDescription,
   userId,
+  tags,
 }: {
   code: string;
   language: string;
   snippetName: string;
   snippetDescription: string;
   userId: string;
+  tags: [];
 }) => {
   try {
     const snippet = await db.insert(snippetsTable).values({ code, language, snippetName, snippetDescription, userId }).returning();
+
+    if (tags.length > 0) {
+      const tagNames = tags.map((tag) => tag);
+      const existingTags = await db.select().from(tagsTable).where(inArray(tagsTable.tagName, tagNames));
+      const existingTagNames = new Set(existingTags.map((etag) => etag.tagName));
+
+      const newTags = tagNames.filter((tag) => !existingTagNames.has(tag));
+
+      if (newTags.length > 0) {
+        await db
+          .insert(tagsTable)
+          .values(newTags.map((tag) => ({ tagName: tag })))
+          .returning();
+      }
+
+      const allTags = await db.select().from(tagsTable).where(inArray(tagsTable.tagName, tagNames));
+
+      await db.insert(snippetsTagsTable).values(allTags.map((tag) => ({ snippetId: snippet[0].id, tagId: tag.id })));
+    }
+
     return snippet;
   } catch (error) {
     throw new AppError("Database error", 500);

@@ -7,11 +7,13 @@ const HeaderComponent = () => {
   const { toggleTheme } = useThemeChangerStore();
 
   return (
-    <div className=" p-3  flex items-center justify-between border-b-2 border-base-300/30 fixed w-full backdrop-blur-lg z-50">
-      <h1 className="text-2xl font-bold text-primary">{"<>"} Code Block</h1>
+    <div className=" p-2 lg:p-3  flex items-center justify-between border-b-2 border-base-300/30 fixed w-full backdrop-blur-lg z-50">
+      <h1 className="text-2xl font-bold text-primary flex items-center">
+        <span>{"<>"}</span> <span className="md:flex hidden">Code Block</span>
+      </h1>
       <div className="flex items-center gap-10">
         <div className="flex items-center gap-3">
-          <label className="swap swap-rotate btn btn-sm btn-ghost btn-square ">
+          <label className="swap swap-rotate btn btn-sm btn-ghost btn-square text-base-content/50 ">
             <input onChange={toggleTheme} type="checkbox" />
 
             <svg className="swap-on size-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

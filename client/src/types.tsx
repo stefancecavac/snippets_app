@@ -22,6 +22,7 @@ export const snippetSchema = z.object({
     .min(1, { message: "Code field must not be empty" })
     .max(5000, { message: "Code should not exceed 5000 characters" }),
   user: z.object({ id: z.string(), email: z.string() }),
+  tags: z.array(z.string() || null),
 });
 
 export type snippetData = z.infer<typeof snippetSchema>;

@@ -47,7 +47,7 @@ export const CreateSnippetModal = () => {
 
   return (
     <>
-      <button onClick={() => setModalOpen(true)} className="btn btn-primary">
+      <button onClick={() => setModalOpen(true)} className="btn btn-primary btn-sm lg:btn-md">
         Add snippet
       </button>
 
@@ -59,7 +59,7 @@ export const CreateSnippetModal = () => {
                 autoComplete="off"
                 aria-autocomplete="none"
                 {...register("snippetName")}
-                className="input ml-5 px-0 mt-2 w-fit input-lg text-3xl font-bold border-0 text-base-content focus-within:outline-none focus:border-none focus-within:shadow-none"
+                className="input  shadow-none ml-5 px-0 mt-2 w-fit input-lg text-3xl font-bold border-0 text-base-content focus-within:outline-none focus-within::border-none focus-within:shadow-none"
                 placeholder={errors.snippetName?.message ?? "New snippet"}
               />
               <div className="px-5 mt-1 flex flex-col">
@@ -69,7 +69,7 @@ export const CreateSnippetModal = () => {
                   {...register("snippetDescription")}
                   placeholder={errors.snippetDescription?.message ?? "Brief description of your snippet"}
                   wrap="soft"
-                  className="textarea border-none px-0 resize-none w-full focus-within:outline-none focus:border-none focus-within:shadow-none"
+                  className="textarea shadow-none border-none px-0 resize-none w-full focus-within:outline-none focus:border-none focus-within:shadow-none"
                 />
 
                 <Controller
@@ -125,14 +125,15 @@ export const CreateSnippetModal = () => {
                   {...register("code")}
                   placeholder={errors.code?.message ?? "Paste your snippet here"}
                   rows={10}
-                  className=" textarea resize-none focus-within:outline-none border border-base-200 w-full h-100 rounded   focus-within:shadow-none"
+                  className=" textarea  shadow-none resize-none focus-within:outline-none border border-base-200 w-full h-100 rounded   focus-within:shadow-none"
                 />
               </div>
 
               <div className="flex items-center justify-end gap-5 mt-5">
-                <button type="button" className="btn btn-soft">
-                  Cancel
-                </button>
+                <form method="dialog">
+                  <button className="btn  btn-soft">Cancel</button>
+                </form>
+
                 <button type="submit" className="btn btn-primary">
                   Add snippet
                 </button>
