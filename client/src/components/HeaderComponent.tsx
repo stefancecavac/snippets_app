@@ -8,9 +8,9 @@ const HeaderComponent = () => {
 
   return (
     <div className=" p-2 lg:p-3  flex items-center justify-between border-b-2 border-base-300/30 fixed w-full backdrop-blur-lg z-50">
-      <h1 className="text-2xl font-bold text-primary flex items-center">
+      <Link to={"/"} className="text-2xl font-bold text-primary flex items-center gap-3">
         <span>{"<>"}</span> <span className="md:flex hidden">Code Block</span>
-      </h1>
+      </Link>
       <div className="flex items-center gap-10">
         <div className="flex items-center gap-3">
           <label className="swap swap-rotate btn btn-sm btn-ghost btn-square text-base-content/50 ">

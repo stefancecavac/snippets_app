@@ -35,7 +35,7 @@ export const createSnippetSchema = z.object({
   snippetName: z
     .string({ message: "Snippet name is required" })
     .min(1, { message: "Snippet name is required" })
-    .max(255, { message: "Snippet name should not exceed 255 characters" }),
+    .max(60, { message: "Snippet name should not exceed 60 characters" }),
   snippetDescription: z
     .string({ message: "Snippet description is required" })
     .min(1, { message: "Snippet description is required" })
@@ -46,6 +46,7 @@ export const createSnippetSchema = z.object({
     })
     .min(1, { message: "Code field must not be empty" })
     .max(5000, { message: "Code should not exceed 5000 characters" }),
+  tags: z.array(z.string()).optional(),
 });
 
 export type createSnippetData = z.infer<typeof createSnippetSchema>;

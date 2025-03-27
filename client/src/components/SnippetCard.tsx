@@ -46,17 +46,20 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
               <p className="p-1 rounded btn btn-sm  bg-primary  shadow-sm text-white text-xs ">Show code</p>
             </div>
             <div className="  group-hover/showCode:blur-xs ">
-              <div className="flex pb-2 mb-4 px-3 ">
-                {snippet.tags &&
-                  snippet.tags.map((tag) => (
-                    <div className="flex items-center gap-2 rounded-full badge px-1 border-base-200 text-xs bg-base-200/50 text-base-content ">
+              <div className="grid grid-cols-3 gap-2 pb-2 mb-4 px-3 h-15">
+                {snippet.tags.filter((tag) => tag).length > 0 &&
+                  snippet.tags.map((tag, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center text-xs gap-2 rounded badge px-1 border-base-200  bg-base-200/50 text-base-content "
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="size-4"
+                        className="size-3"
                       >
                         <path
                           strokeLinecap="round"
@@ -65,7 +68,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
                         />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
                       </svg>
-                      {tag}
+                      <p className="text-xs">{tag}</p>
                     </div>
                   ))}
               </div>
@@ -84,7 +87,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
         <div className="flex items-center justify-between border-t border-base-200 px-5 py-3 ">
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-base-200 text-xs font-medium uppercase "></div>
-            <span className="text-xs text-zinc-600 ">{snippet?.user?.email}</span>
+            <span className="text-xs text-primary/70 ">{snippet?.user?.email}</span>
           </div>
 
           <div className="flex items-center gap-1">

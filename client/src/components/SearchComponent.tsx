@@ -1,5 +1,4 @@
-import { useSearchParams } from "react-router-dom";
-import { CreateSnippetModal } from "./CreateSnippetModal";
+import { Link, useSearchParams } from "react-router-dom";
 
 const SearchComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,7 +35,9 @@ const SearchComponent = () => {
           )}
         </div>
       </label>
-      <CreateSnippetModal />
+      <Link to={"/create  "} className="btn  btn-primary">
+        Add snippet
+      </Link>
     </div>
   );
 };

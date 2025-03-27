@@ -1,5 +1,5 @@
 import { axiosInstance } from "../config/apiClient";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createSnippetData, snippetData } from "../types";
 
 export const useGetAllSnippets = (q: string) => {
@@ -34,6 +34,7 @@ export const useGetAllSnippets = (q: string) => {
   };
 };
 export const useCreateSnippet = () => {
+  const queryClient = useQueryClient();
   const postSnippetAPi = async (data: createSnippetData) => {
     const response = await axiosInstance.post("/snippets", data);
 
@@ -43,6 +44,9 @@ export const useCreateSnippet = () => {
   const { mutate: createSnippet } = useMutation({
     mutationKey: ["snippets"],
     mutationFn: postSnippetAPi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["snippets"] });
+    },
   });
 
   return { createSnippet };
