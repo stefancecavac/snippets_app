@@ -3,6 +3,7 @@ import {
   deleteSnippetControler,
   getAllSnippetsController,
   getAllUserSnippetsController,
+  getLikedSnippetsController,
   getSingleSnippetController,
   postSnippetController,
 } from "../controllers/snippetController";
@@ -13,17 +14,18 @@ const router = express.Router();
 
 router.get("/", getAllSnippetsController);
 
-router.get("/my-snippets/", authentication, getAllUserSnippetsController);
+router.get("/my-snippets", authentication, getAllUserSnippetsController);
+router.get("/my-snippets/liked", authentication, getLikedSnippetsController);
 
 router.get("/:id", validate({ params: snippetSchema.pick({ id: true }) }), getSingleSnippetController);
 
-router.use(authentication);
-
 router.post(
   "/",
+  authentication,
   validate({ body: snippetSchema.pick({ code: true, language: true, snippetDescription: true, snippetName: true }) }),
   postSnippetController
 );
-router.delete("/:id", validate({ params: snippetSchema.pick({ id: true }) }), deleteSnippetControler);
+
+router.delete("/:id", authentication, validate({ params: snippetSchema.pick({ id: true }) }), deleteSnippetControler);
 
 export default router;

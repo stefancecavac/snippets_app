@@ -5,6 +5,7 @@ import {
   getAllSnippetsByUserId,
   getAllSnippetService,
   getSnippetByIdService,
+  getSnippetByLikedService,
 } from "../services/snippetService";
 import AppError from "../middlewares/errorHandler";
 
@@ -44,6 +45,20 @@ export const getSingleSnippetController = async (req: Request, res: Response, ne
     if (snippets.length === 0) {
       return next(new AppError("No snippet with that id found", 400));
     }
+
+    res.status(200).json(snippets);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getLikedSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId;
+    if (!userId) {
+      return next(new AppError("No userId provided", 400));
+    }
+    const snippets = await getSnippetByLikedService(userId);
 
     res.status(200).json(snippets);
   } catch (error) {

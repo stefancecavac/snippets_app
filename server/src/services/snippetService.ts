@@ -98,6 +98,31 @@ export const getAllSnippetsByUserId = async (userId: string) => {
   }
 };
 
+export const getSnippetByLikedService = async (userId: string) => {
+  try {
+    const likedSnippets = await db
+      .select({
+        id: snippetsTable.id,
+        language: snippetsTable.language,
+        likes: count(likesTable.snippetId).as("likes_count"),
+        snippetName: snippetsTable.snippetName,
+        snippetDescription: snippetsTable.snippetDescription,
+        code: snippetsTable.code,
+        userId: snippetsTable.userId,
+      })
+      .from(snippetsTable)
+      .leftJoin(likesTable, eq(likesTable.snippetId, snippetsTable.id))
+      .where(eq(likesTable.userId, userId))
+      .groupBy(snippetsTable.id);
+
+    return likedSnippets;
+  } catch (error) {
+    console.log(error);
+
+    throw new AppError("Database error", 500);
+  }
+};
+
 export const getSnippetByIdService = async (id: string) => {
   try {
     const snippets = await db.select().from(snippetsTable).where(eq(snippetsTable.id, id));

@@ -31,7 +31,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
 
   return (
     <>
-      <div className="group relative overflow-hidden  rounded-lg border-2 border-base-200/50 bg-base-100 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-base-300">
+      <div className="group relative overflow-hidden  rounded-lg border-2 border-base-200/50 bg-base-200/50 transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-base-300">
         <div className="flex flex-col pt-3  ">
           <div className="flex items-center pb-2 px-3 justify-between">
             <div className=" flex items-center gap-2  py-1  text-neutral">

@@ -4,7 +4,7 @@ const SearchComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
-    <div className="flex items-center gap-5 lg:w-150 sticky ">
+    <div className="flex items-center gap-5 lg:w-150 sticky z-50 px-2 ">
       <label className="w-full">
         <div className="flex items-center w-full border-b-2 gap-3  border-base-200 focus-within:border-primary py-3">
           <svg className="size-6 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

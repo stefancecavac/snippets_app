@@ -46,12 +46,12 @@ const HomePage = () => {
         </p>
       </div>
 
-      <div className="flex mx-auto my-20 sticky top-15 z-50 bg-base-100">
+      <div className="flex mx-auto my-20 sticky top-15 bg-base-100 z-100 rounded-lg">
         <SearchComponent />
       </div>
 
       <div className=" mt-5 lg:mt-10 mx-2 lg:mx-20">
-        <p className="text-neutral font-medium">Code snipets</p>
+        <p className="text-neutral font-medium">Popular Code snipets:</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
           {snippetsLoading ? (
@@ -70,7 +70,7 @@ const HomePage = () => {
             ))}
           </div>
         )}
-        <div className="" ref={observerRef}></div>
+        <div className="bg-red-500" ref={observerRef}></div>
       </div>
     </div>
   );
