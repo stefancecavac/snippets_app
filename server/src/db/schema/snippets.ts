@@ -34,8 +34,7 @@ export const snippetSchema = z.object({
     .string({
       message: "Code is required",
     })
-    .min(1, { message: "Code field must not be empty" })
-    .max(5000, { message: "Code should not exceed 5000 characters" }),
+    .min(1, { message: "Code field must not be empty" }),
 
   userId: z.string(),
 });
