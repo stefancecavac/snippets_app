@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import snippetsRouter from "./routes/snippetRoutes";
 import authRouter from "./routes/authRoutes";
-import likeRouter from "./routes/likeRoutes";
 import { errroHandler } from "./middlewares/errorHandler";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -22,7 +21,6 @@ app.use(cors(corsOptions));
 
 app.use("/api/snippets", snippetsRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/likes", likeRouter);
 
 app.use(errroHandler);
 

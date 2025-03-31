@@ -33,6 +33,7 @@ export const useGetAllSnippets = (q: string) => {
     hasNextPage,
   };
 };
+
 export const useCreateSnippet = () => {
   const queryClient = useQueryClient();
   const postSnippetAPi = async (data: createSnippetData) => {

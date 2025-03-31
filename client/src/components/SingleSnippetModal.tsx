@@ -41,7 +41,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
             </form>
           </div>
         </div>
-        <div className="grid grid-cols-10 gap-2   mt-2">
+        <div className="grid grid-cols-10 gap-2 my-3   ">
           {snippet.tags.filter((tag) => tag).length > 0 &&
             snippet.tags.map((tag, index) => (
               <div key={index} className="flex items-center text-xs gap-2 rounded badge px-1 border-base-200  bg-base-200/50 text-base-content ">
@@ -57,7 +57,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
               </div>
             ))}
         </div>
-        <p className="py-4 text-neutral max-h-30 break-words text-xs ">{snippet.snippetDescription}</p>
+        <p className="py-4 text-neutral max-h-30 break-words text-xs my-4 ">{snippet.snippetDescription}</p>
 
         <div className="border rounded-lg border-base-200 whitespace-break-spaces ">
           <div className="flex items-center justify-between p-2 border-b-2 border-base-200">
@@ -86,7 +86,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
           </div>
         </div>
         <div className="mt-5">
-          <p className="text-xs text-base-content/50">{snippet.user.email}</p>
+          <p className="text-xs text-base-content/50">Snippet by: {snippet.user.email}</p>
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">

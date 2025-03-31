@@ -7,8 +7,6 @@ export const tags = [
   "Next.js",
   "NestJS",
   "Svelte",
-  "HTML",
-  "CSS",
   "SCSS",
   "TailwindCSS",
   "Bootstrap",

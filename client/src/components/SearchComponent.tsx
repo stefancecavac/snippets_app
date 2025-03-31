@@ -1,7 +1,9 @@
 import { Link, useSearchParams } from "react-router-dom";
+import { UseAuthContext } from "../context/authContext";
 
 const SearchComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { user } = UseAuthContext();
 
   return (
     <div className="flex items-center gap-5 lg:w-150 sticky z-50 px-2 ">
@@ -35,7 +37,7 @@ const SearchComponent = () => {
           )}
         </div>
       </label>
-      <Link to={"/create  "} className="btn  btn-primary">
+      <Link to={`${user ? "/create" : "/signup"}`} className="btn  btn-primary">
         Add snippet
       </Link>
     </div>

@@ -6,7 +6,6 @@ export const snippetSchema = z.object({
     .string({ message: "Language is required" })
     .min(1, { message: "Language is required" })
     .max(255, { message: "Language name should not exceed 255 characters" }),
-  likes: z.number().int().min(0, { message: "Likes cannot be negative" }).default(0),
   snippetName: z
     .string({ message: "Snippet name is required" })
     .min(1, { message: "Snippet name is required" })
@@ -57,7 +56,6 @@ export const usersSchema = z.object({
     .string({ message: "Email is required" })
     .email({ message: "Not a valid email" })
     .max(255, { message: "Language name should not exceed 255 characters" }),
-  likes: z.array(z.string()),
 });
 
 export type userData = z.infer<typeof usersSchema>;

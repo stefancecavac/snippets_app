@@ -1,12 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  createSnippetService,
-  deleteSnippetByIdService,
-  getAllSnippetsByUserId,
-  getAllSnippetService,
-  getSnippetByIdService,
-  getSnippetByLikedService,
-} from "../services/snippetService";
+import { createSnippetService, deleteSnippetByIdService, getAllSnippetService, getSnippetByIdService } from "../services/snippetService";
 import AppError from "../middlewares/errorHandler";
 
 export const getAllSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
@@ -15,20 +8,6 @@ export const getAllSnippetsController = async (req: Request, res: Response, next
     const page = parseInt(req.query.page as string) || 1;
 
     const snippets = await getAllSnippetService({ q, page });
-
-    res.status(200).json(snippets);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getAllUserSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return next(new AppError("No userId provided", 400));
-    }
-    const snippets = await getAllSnippetsByUserId(userId);
 
     res.status(200).json(snippets);
   } catch (error) {
@@ -45,20 +24,6 @@ export const getSingleSnippetController = async (req: Request, res: Response, ne
     if (snippets.length === 0) {
       return next(new AppError("No snippet with that id found", 400));
     }
-
-    res.status(200).json(snippets);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getLikedSnippetsController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return next(new AppError("No userId provided", 400));
-    }
-    const snippets = await getSnippetByLikedService(userId);
 
     res.status(200).json(snippets);
   } catch (error) {

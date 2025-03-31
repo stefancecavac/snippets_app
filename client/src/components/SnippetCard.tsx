@@ -3,30 +3,18 @@ import { SingleSnippetModal } from "./SingleSnippetModal";
 import { snippetData } from "../types";
 import { languageIcons } from "../lanugageIcons";
 import { CopyButton } from "./CopyButton";
-import { UseAuthContext } from "../context/authContext";
-import { useToggleLike } from "../api/likeApi";
-import { useNavigate } from "react-router-dom";
 
 type SnippetCardProps = {
   snippet: snippetData;
 };
 
 export const SnippetCard = ({ snippet }: SnippetCardProps) => {
-  const { user } = UseAuthContext();
-  const { toggleLike } = useToggleLike();
-  const navigate = useNavigate();
-
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
   };
-  const handleLike = () => {
-    if (!user) navigate("/signup");
-    toggleLike(snippet.id);
-  };
 
-  const snippetLiked = user?.likes?.some((liked) => liked === snippet.id);
   const icon = languageIcons.filter((icon) => icon.name === snippet.language)[0];
 
   return (
@@ -88,29 +76,6 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
           <div className="flex items-center gap-2">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-base-200 text-xs font-medium uppercase "></div>
             <span className="text-xs text-primary/70 ">{snippet?.user?.email}</span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            <p className="text-neutral text-xs">{snippet.likes}</p>
-
-            {snippet.user.id !== user?.id && (
-              <button onClick={handleLike} className="hover:cursor-pointer  hover:fill-error">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1}
-                  stroke="currentColor"
-                  className={`size-5   hover:scale-130 hover:fill-error transition-all ${snippetLiked ? "fill-error  text-error" : "text-neutral "}`}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
-              </button>
-            )}
           </div>
         </div>
       </div>

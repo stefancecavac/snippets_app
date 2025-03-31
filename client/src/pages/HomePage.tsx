@@ -51,8 +51,9 @@ const HomePage = () => {
       </div>
 
       <div className=" mt-5 lg:mt-10 mx-2 lg:mx-20">
-        <p className="text-neutral font-medium">Popular Code snipets:</p>
-
+        <div className="flex items-center justify-between ">
+          <p className="text-base-content/50  text-sm">Latest Code snipets:</p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-5">
           {snippetsLoading ? (
             loaderSnippets.map((_, index) => <SkeletonSnippetCard key={index} />)

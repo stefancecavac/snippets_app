@@ -2,8 +2,7 @@ import { snippetsTable } from "../db/schema/snippets";
 import { db } from "../db";
 import AppError from "../middlewares/errorHandler";
 import { usersTable } from "../db/schema/users";
-import { likesTable } from "../db/schema/likes";
-import { and, count, desc, eq, exists, ilike, inArray, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 import { snippetsTagsTable } from "../db/schema/snippetsTags";
 import { tagsTable } from "../db/schema/tags";
 
@@ -47,17 +46,14 @@ export const getAllSnippetService = async ({ q, page }: { q: string; page: numbe
         code: snippetsTable.code,
         language: snippetsTable.language,
         user: { id: usersTable.id, email: usersTable.email },
-        likes: count(likesTable.snippetId).as("likes_count"),
         tags: sql<string>`ARRAY_AGG(DISTINCT ${tagsTable.tagName})`,
       })
       .from(snippetsTable)
       .leftJoin(usersTable, eq(snippetsTable.userId, usersTable.id))
-      .leftJoin(likesTable, eq(likesTable.snippetId, snippetsTable.id))
       .leftJoin(snippetsTagsTable, eq(snippetsTagsTable.snippetId, snippetsTable.id))
       .leftJoin(tagsTable, eq(tagsTable.id, snippetsTagsTable.tagId))
       .where(searchCondition)
       .groupBy(snippetsTable.id, usersTable.id)
-      .orderBy(desc(sql`likes_count`))
       .limit(limit)
       .offset(offset);
 
@@ -74,51 +70,6 @@ export const getAllSnippetService = async ({ q, page }: { q: string; page: numbe
     return { snippets, hasNextPage };
   } catch (error) {
     console.log(error);
-    throw new AppError("Database error", 500);
-  }
-};
-
-export const getAllSnippetsByUserId = async (userId: string) => {
-  try {
-    const snippets = await db
-      .select({
-        id: snippetsTable.id,
-        snippetName: snippetsTable.snippetName,
-        snippetDescription: snippetsTable.snippetDescription,
-        code: snippetsTable.code,
-        language: snippetsTable.language,
-        user: { id: usersTable.id, email: usersTable.email },
-      })
-      .from(snippetsTable)
-      .where(eq(snippetsTable.id, userId))
-      .fullJoin(usersTable, eq(snippetsTable.userId, usersTable.id));
-    return snippets;
-  } catch (error) {
-    throw new AppError("Database error", 500);
-  }
-};
-
-export const getSnippetByLikedService = async (userId: string) => {
-  try {
-    const likedSnippets = await db
-      .select({
-        id: snippetsTable.id,
-        language: snippetsTable.language,
-        likes: count(likesTable.snippetId).as("likes_count"),
-        snippetName: snippetsTable.snippetName,
-        snippetDescription: snippetsTable.snippetDescription,
-        code: snippetsTable.code,
-        userId: snippetsTable.userId,
-      })
-      .from(snippetsTable)
-      .leftJoin(likesTable, eq(likesTable.snippetId, snippetsTable.id))
-      .where(eq(likesTable.userId, userId))
-      .groupBy(snippetsTable.id);
-
-    return likedSnippets;
-  } catch (error) {
-    console.log(error);
-
     throw new AppError("Database error", 500);
   }
 };
