@@ -28,9 +28,14 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
 
   return (
     <dialog ref={modalRef} id={`${snippet.id}`} className="modal" onClose={closeModal}>
-      <div className="modal-box w-11/12 max-w-4xl scale-in-center ">
-        <div className="flex justify-between items-center">
-          <h3 className="font-bold text-2xl text-base-content break-words w-140">{snippet.snippetName}</h3>
+      <div className="modal-box w-11/12 max-w-4xl scale-in-center p-0">
+        <div className="flex justify-between items-start bg-base-200/50 p-3">
+          <h3 className="font-bold text-2xl  break-words w-140 text-primary items-center gap-2 flex">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+            </svg>
+            {snippet.snippetName}
+          </h3>
           <div className="modal-action items-center flex justify-center mt-0">
             <form method="dialog">
               <button className="btn btn-square btn-xs btn-ghost">
@@ -41,7 +46,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
             </form>
           </div>
         </div>
-        <div className="grid grid-cols-10 gap-2 my-3   ">
+        <div className="grid grid-cols-10 gap-2  p-3   ">
           {snippet.tags.filter((tag) => tag).length > 0 &&
             snippet.tags.map((tag, index) => (
               <div key={index} className="flex items-center text-xs gap-2 rounded badge px-1 border-base-200  bg-base-200/50 text-base-content ">
@@ -57,10 +62,10 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
               </div>
             ))}
         </div>
-        <p className="py-4 text-neutral max-h-30 break-words text-xs my-4 ">{snippet.snippetDescription}</p>
+        <p className="p-3 text-neutral max-h-30 break-words text-xs  ">{snippet.snippetDescription}</p>
 
-        <div className="border rounded-lg border-base-200 whitespace-break-spaces ">
-          <div className="flex items-center justify-between p-2 border-b-2 border-base-200">
+        <div className="border-t border-base-200 bg-base-200/50 whitespace-break-spaces ">
+          <div className="flex items-center justify-between p-2 pr-5    border-base-200">
             <div className="flex items-center gap-2">
               <div
                 className="size-6 flex text-neutral fill-neutral"
@@ -72,7 +77,7 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
 
             <CopyButton code={snippet.code} />
           </div>
-          <div className="overflow-auto max-h-100 text-sm">
+          <div className="overflow-auto max-h-100 text-sm m-0">
             <SyntaxHighlighter
               wrapLines
               wrapLongLines
@@ -80,12 +85,13 @@ export const SingleSnippetModal = ({ snippet, closeModal }: SingleSnippetModalPr
               showLineNumbers
               language={"sql"}
               style={darkMode ? materialDark : materialLight}
+              customStyle={{ margin: 0 }}
             >
               {snippet.code}
             </SyntaxHighlighter>
           </div>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 p-3">
           <p className="text-xs text-base-content/50">Snippet by: {snippet.user.email}</p>
         </div>
       </div>

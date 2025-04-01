@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { UseAuthContext } from "../context/authContext";
 import { useState } from "react";
 import { CreateSnippetModal } from "./CreateSnippetModal";
@@ -7,6 +7,12 @@ const SearchComponent = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = UseAuthContext();
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const hanldeOpenCreateSnippetModal = () => {
+    if (!user) navigate("/signup");
+    setModalOpen(true);
+  };
 
   return (
     <div className="flex items-center gap-5 lg:w-150 sticky z-50 px-2 ">
@@ -40,7 +46,7 @@ const SearchComponent = () => {
           )}
         </div>
       </label>
-      <button onClick={() => setModalOpen(true)} className="btn  btn-primary">
+      <button onClick={hanldeOpenCreateSnippetModal} className="btn  btn-primary">
         Add snippet
       </button>
 

@@ -15,11 +15,11 @@ export const CopyButton = ({ code }: { code: string }) => {
     <button
       onClick={handleCopyCode}
       className={`flex  btn  btn-ghost  btn-square  text-neutral/50 transition-all  ${
-        liked ? "w-15 h-5 hover:bg-none" : "w-5 h-5 hover:bg-base-200"
+        liked ? "w-15 h-5 hover:bg-none " : "w-5 h-5 hover:bg-base-200"
       }  `}
     >
       {liked ? (
-        <p className="text-xs">Coppied!</p>
+        <p className="text-xs  text-primary">Coppied!</p>
       ) : (
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={`size-5   `}>
           <path

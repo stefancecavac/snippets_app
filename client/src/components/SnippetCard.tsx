@@ -34,7 +34,7 @@ export const SnippetCard = ({ snippet }: SnippetCardProps) => {
               <p className="p-1 rounded btn btn-sm  bg-primary  shadow-sm text-white text-xs ">Show code</p>
             </div>
             <div className="  group-hover/showCode:blur-xs ">
-              <div className="grid grid-cols-3 gap-2 pb-2 mb-4 px-3 h-15">
+              <div className="flex justify-start gap-2 items-start mt-1 mb-3 mx-2  ">
                 {snippet.tags.filter((tag) => tag).length > 0 &&
                   snippet.tags.map((tag, index) => (
                     <div
